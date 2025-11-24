@@ -3,7 +3,7 @@ project(topk_words CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(topk_words topk_words.cpp)
+add_executable(topk_words topk_words.cpp word_counter.cpp)
 
 if (MSVC)
     target_compile_options(topk_words PUBLIC /W4)
