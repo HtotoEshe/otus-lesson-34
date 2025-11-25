@@ -50,16 +50,17 @@ Counter WordCounter::CountWords(std::istream&& stream) {
 void WordCounter::PrintTopk(std::ostream& stream, const Counter& counter,
                             const size_t k) {
     std::vector<Counter::const_iterator> words;
-    words.reserve(std::min(counter.size(), k));
+    const size_t size = std::min(k, counter.size());
+    words.reserve(size);
     for (auto it = std::cbegin(counter); it != std::cend(counter); ++it) {
         words.push_back(it);
     }
 
-    std::partial_sort(std::begin(words), std::begin(words) + k, std::end(words),
-                      [](auto lhs, auto& rhs) {
+    std::partial_sort(std::begin(words), std::begin(words) + size,
+                      std::end(words), [](auto lhs, auto& rhs) {
                           return lhs->second > rhs->second;
                       });
-    std::for_each(std::begin(words), std::begin(words) + k,
+    std::for_each(std::begin(words), std::begin(words) + size,
                   [&stream](const Counter::const_iterator& pair) {
                       stream << std::setw(4) << pair->second << " "
                              << pair->first << '\n';
